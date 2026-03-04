@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!--
+    charset="UTF-8" tells the browser to use UTF-8 encoding.
+    This means it can understand all characters — English, symbols, emojis, etc.
+    Without this, special characters might show as garbled text.
+  -->
+  <meta charset="UTF-8" />
+
+  <!--
+    viewport meta tag is CRITICAL for mobile responsiveness.
+    Without it, mobile browsers zoom out and show a shrunken desktop view.
+    width=device-width  → the page width matches the device screen width.
+    initial-scale=1.0   → no zoom on load.
+  -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- What shows in the browser tab and in Google search results -->
+  <title>Oluwanifemi Akinwumi — Frontend Developer</title>
+
+  <!--
+    Open Graph tags control how your page looks when shared on
+    WhatsApp, Twitter, LinkedIn etc. (the preview card with image + title).
+    These are optional but add a professional touch.
+  -->
+  <meta property="og:title" content="Oluwanifemi Akinwumi — Frontend Developer" />
+  <meta property="og:description" content="I build clean, interactive interfaces — turning ideas into web experiences people enjoy using." />
+  <meta property="og:type" content="website" />
+
+  <!--
+    Google Fonts
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Space+Grotesk:wght@500;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <!--
+    Devicons — a free icon library of 200+ tech/tool logos.
+    Loading it here via CDN means no download or install needed.
+    CDN (Content Delivery Network) serves the file from servers
+    close to the user's location, making it load fast globally.
+    Usage: <i class="devicon-html5-plain"></i>
+  -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
+
+  <!-- Your stylesheet. rel="stylesheet" tells the browser what kind of file it is. -->
+  <link rel="stylesheet" href="css/main.css" />
+</head>
+
+<body>
+
+  <!--
+    ============================================================
+    NAVIGATION
+    ============================================================
+  -->
+  <nav class="nav" id="nav">
+
+
+    <div class="nav__container">
+
+      <a href="#hero" class="nav__logo">nifemi.</a>
+
+      <ul class="nav__links" id="navLinks">
+        <li><a href="#about"    class="nav__link">About</a></li>
+        <li><a href="#projects" class="nav__link">Projects</a></li>
+        <li><a href="#skills"   class="nav__link">Skills</a></li>
+        <li><a href="#contact"  class="nav__link">Contact</a></li>
+      </ul>
+
+     
+      <a href="#contact" class="btn btn--outline nav__cta">Hire Me</a>
+
+  
+      <button class="theme-toggle" id="themeToggle" aria-label="Switch to light mode">
+        <!-- Moon icon — visible when in dark mode -->
+        <svg class="theme-toggle__moon" xmlns="http://www.w3.org/2000/svg"
+          width="18" height="18" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+        <!-- Sun icon — visible when in light mode -->
+        <svg class="theme-toggle__sun" xmlns="http://www.w3.org/2000/svg"
+          width="18" height="18" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1"  x2="12" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22"  x2="5.64" y2="5.64"/>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1"  y1="12" x2="3"  y2="12"/>
+          <line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22"  y1="19.78" x2="5.64"  y2="18.36"/>
+          <line x1="18.36" y1="5.64"  x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+
+      <!--
+        Hamburger button
+      -->
+      <button class="nav__toggle" id="navToggle" aria-label="Toggle navigation menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+    </div>
+  </nav>
+
+
+  <!--
+    ============================================================
+    HERO SECTION
+    ============================================================
+  -->
+  <section class="hero" id="hero">
+    <div class="hero__container">
+
+      <p class="hero__greeting">Hi, I'm</p>
+
+      <h1 class="hero__name">Oluwanifemi<br />Akinwumi</h1>
+      <h2 class="hero__role"></h2>
+
+      <!-- Tagline — one sentence that says what you do and why it matters -->
+      <p class="hero__tagline">
+        I build clean, interactive interfaces — turning ideas into
+        web experiences people actually enjoy using.
+      </p>
+
+      <div class="hero__ctas">
+        <a href="#projects" class="btn btn--primary">View My Work</a>
+        <a href="#contact"  class="btn btn--ghost">Get In Touch</a>
+      </div>
+
+      <!--
+        Social links
+      -->
+      <div class="hero__socials">
+
+        <a
+          href="#"
+          class="social-link"
+          aria-label="GitHub profile"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0
+              0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20
+              4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38
+              0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5
+              4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37
+              3.37 0 0 0 9 18.13V22"/>
+          </svg>
+        </a>
+
+        <a
+          href="#"
+          class="social-link"
+          aria-label="LinkedIn profile"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2
+              2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+            <rect x="2" y="9" width="4" height="12"/>
+            <circle cx="4" cy="4" r="2"/>
+          </svg>
+        </a>
+
+        <a
+          href="#"
+          class="social-link"
+          aria-label="Send me an email"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9
+              2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+            <polyline points="22,6 12,13 2,6"/>
+          </svg>
+        </a>
+
+      </div>
+    </div>
+
+    <!--
+      Scroll hint
+    -->
+    <div class="hero__scroll-hint" aria-hidden="true">
+      <span>scroll</span>
+      <div class="hero__scroll-line"></div>
+    </div>
+
+  </section>
+
+
+  <!--
+    ============================================================
+    ABOUT SECTION
+    ============================================================
+  -->
+  <section class="about section" id="about">
+    <div class="about__container">
+
+      <!--
+        Section label
+      -->
+      <div class="section__label">// about me</div>
+
+      <div class="about__grid">
+
+        <!--
+          LEFT COLUMN — Photo
+        -->
+        <div class="about__photo-col">
+          <div class="about__avatar-placeholder" aria-hidden="true">
+            <img src="assets/images/hero.webp" alt="my personal picture">
+          </div>
+
+          <!--
+            Status badge
+          -->
+          <div class="about__status">
+            <span class="status-dot"></span>
+            Available for frontend roles & internships
+          </div>
+        </div>
+
+        <!--
+          RIGHT COLUMN — Bio text and quick facts
+        -->
+        <div class="about__content">
+
+          <h2 class="about__heading">
+            Self-taught. Lagos-based.<br />Building since 2018.
+          </h2>
+
+          <!--
+            Your bio — written in your voice, not corporate-speak.
+            Three short paragraphs read better than one long block.
+            Each paragraph makes one clear point.
+          -->
+          <div class="about__bio">
+            <p>
+              I'm a self-taught Frontend Developer from Lagos, Nigeria. I wrote my
+              first line of code at 17, in 2018 — not because someone told me to,
+              but because I wanted to build something I could see working. That
+              feeling of watching an idea come to life in a browser hooked me
+              immediately and has never let go.
+            </p>
+            <p>
+              What I love most about frontend development is the intersection of
+              logic and experience. I think constructively when I code — breaking
+              problems down, understanding the why behind every decision, and
+              making sure the end result actually makes sense to the person using it.
+            </p>
+            <p>
+              I'm currently sharpening my skills, building real projects, and
+              actively looking for opportunities where I can contribute, grow,
+              and keep doing what I love.
+            </p>
+          </div>
+
+          <!--
+            Quick facts — a scannable row of short details.
+            Recruiters and visitors often skim before they read.
+            These give them the key points at a glance.
+
+            Each fact uses a <dt> (definition term) and <dd> (definition detail).
+            <dl> is a description list — the semantically correct element for
+            key-value pairs like these.
+          -->
+          <dl class="about__facts">
+            <div class="about__fact">
+              <dt>Based in</dt>
+              <dd>Lagos, Nigeria</dd>
+            </div>
+            <div class="about__fact">
+              <dt>Started</dt>
+              <dd>2018 · Age 17</dd>
+            </div>
+            <div class="about__fact">
+              <dt>Learning</dt>
+              <dd>Self-taught</dd>
+            </div>
+            <div class="about__fact">
+              <dt>Focus</dt>
+              <dd>Frontend Development</dd>
+            </div>
+          </dl>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!--
+    ============================================================
+    PROJECTS SECTION
+    ============================================================
+  -->
+  <section class="projects section" id="projects">
+    <div class="projects__container">
+
+      <div class="section__label">// projects</div>
+
+      <div class="projects__header">
+        <h2 class="projects__heading">Things I've Built</h2>
+        <p class="projects__subtext">
+          A set of projects I built to sharpen real frontend skills —
+          APIs, data, state, and clean UI.
+        </p>
+      </div>
+
+      <!--
+        Projects grid — three cards side by side on desktop,
+        stacking to one column on mobile.
+      -->
+      <div class="projects__grid">
+
+
+        <!--
+          PROJECT CARD 1 — GitHub Profile Finder
+          ======================================
+          Structure of every card:
+          - .card__top     → number + external link icon
+          - .card__title   → project name
+          - .card__desc    → what it does (1-2 sentences)
+          - .card__tags    → tech used (each tag is a <span>)
+          - .card__links   → GitHub and live demo links
+        -->
+        <article class="project-card">
+          <div class="card__top">
+            <span class="card__number">01</span>
+            <!--
+              External link icon — SVG from Feather Icons.
+              aria-hidden="true" hides decorative icons from screen readers.
+            -->
+            <svg class="card__ext-icon" xmlns="http://www.w3.org/2000/svg"
+              width="18" height="18" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+              <polyline points="15 3 21 3 21 9"/>
+              <line x1="10" y1="14" x2="21" y2="3"/>
+            </svg>
+          </div>
+
+          <h3 class="card__title">GitHub Profile Finder</h3>
+
+          <p class="card__desc">
+            Search any GitHub username and instantly view their profile stats,
+            public repositories, follower count, and top languages — all pulled
+            live from the GitHub API.
+          </p>
+
+          <!--
+            Tech tags — each <span> is one technology.
+            Styled as small pill badges in CSS.
+          -->
+          <ul class="card__tags" aria-label="Technologies used">
+            <li><span class="tag">HTML</span></li>
+            <li><span class="tag">CSS</span></li>
+            <li><span class="tag">JavaScript</span></li>
+            <li><span class="tag">GitHub API</span></li>
+            <li><span class="tag">Fetch / Async</span></li>
+          </ul>
+
+          <div class="card__links">
+            <a href="#" class="card__link" aria-label="View GitHub repository" target="_blank" rel="noopener noreferrer">
+              <!-- GitHub icon -->
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0
+                  0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20
+                  4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38
+                  0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5
+                  4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37
+                  3.37 0 0 0 9 18.13V22"/>
+              </svg>
+              Code
+            </a>
+            <a href="#" class="card__link card__link--live" aria-label="View live demo" target="_blank" rel="noopener noreferrer">
+              <!-- External link icon -->
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                <polyline points="15 3 21 3 21 9"/>
+                <line x1="10" y1="14" x2="21" y2="3"/>
+              </svg>
+              Live Demo
+            </a>
+          </div>
+        </article>
+
+
+        <!-- PROJECT CARD 2 — Personal Finance Tracker -->
+        <article class="project-card">
+          <div class="card__top">
+            <span class="card__number">02</span>
+            <svg class="card__ext-icon" xmlns="http://www.w3.org/2000/svg"
+              width="18" height="18" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+              <polyline points="15 3 21 3 21 9"/>
+              <line x1="10" y1="14" x2="21" y2="3"/>
+            </svg>
+          </div>
+
+          <h3 class="card__title">Personal Finance Tracker</h3>
+
+          <p class="card__desc">
+            Add income and expenses, assign categories, and track your running
+            balance in real time. All data is saved to localStorage so nothing
+            is lost on page refresh.
+          </p>
+
+          <ul class="card__tags" aria-label="Technologies used">
+            <li><span class="tag">HTML</span></li>
+            <li><span class="tag">CSS</span></li>
+            <li><span class="tag">JavaScript</span></li>
+            <li><span class="tag">localStorage</span></li>
+            <li><span class="tag">DOM Manipulation</span></li>
+          </ul>
+
+          <div class="card__links">
+            <a href="#" class="card__link" aria-label="View GitHub repository" target="_blank" rel="noopener noreferrer">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0
+                  0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20
+                  4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38
+                  0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5
+                  4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37
+                  3.37 0 0 0 9 18.13V22"/>
+              </svg>
+              Code
+            </a>
+            <a href="#" class="card__link card__link--live" aria-label="View live demo" target="_blank" rel="noopener noreferrer">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                <polyline points="15 3 21 3 21 9"/>
+                <line x1="10" y1="14" x2="21" y2="3"/>
+              </svg>
+              Live Demo
+            </a>
+          </div>
+        </article>
+
+
+        <!-- PROJECT CARD 3 — Weather Dashboard -->
+        <article class="project-card">
+          <div class="card__top">
+            <span class="card__number">03</span>
+            <svg class="card__ext-icon" xmlns="http://www.w3.org/2000/svg"
+              width="18" height="18" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+              <polyline points="15 3 21 3 21 9"/>
+              <line x1="10" y1="14" x2="21" y2="3"/>
+            </svg>
+          </div>
+
+          <h3 class="card__title">Weather Dashboard</h3>
+
+          <p class="card__desc">
+            Search any city to get the current weather conditions and a 5-day
+            forecast, powered by the OpenWeatherMap API. Displays temperature,
+            humidity, wind speed, and weather icons.
+          </p>
+
+          <ul class="card__tags" aria-label="Technologies used">
+            <li><span class="tag">HTML</span></li>
+            <li><span class="tag">CSS</span></li>
+            <li><span class="tag">JavaScript</span></li>
+            <li><span class="tag">OpenWeather API</span></li>
+            <li><span class="tag">Async / Await</span></li>
+          </ul>
+
+          <div class="card__links">
+            <a href="#" class="card__link" aria-label="View GitHub repository" target="_blank" rel="noopener noreferrer">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0
+                  0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20
+                  4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38
+                  0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5
+                  4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37
+                  3.37 0 0 0 9 18.13V22"/>
+              </svg>
+              Code
+            </a>
+            <a href="#" class="card__link card__link--live" aria-label="View live demo" target="_blank" rel="noopener noreferrer">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                <polyline points="15 3 21 3 21 9"/>
+                <line x1="10" y1="14" x2="21" y2="3"/>
+              </svg>
+              Live Demo
+            </a>
+          </div>
+        </article>
+
+
+      </div>
+    </div>
+  </section>
+
+
+  <!--
+    ============================================================
+    SKILLS SECTION
+    ============================================================
+    An icon grid — no progress bars.
+    Each skill is a card with a Devicon logo + the tool name.
+
+    Skills are split into two groups using a <div class="skills__group">
+    for each. This creates visual separation between languages and tools
+    without needing a table or complex layout.
+
+    Why <ul> and <li> for the skill cards?
+    Skills are a list. Using semantic list elements means screen readers
+    announce "list of 5 items" and enumerate them — better accessibility.
+  -->
+  <section class="skills section" id="skills">
+    <div class="skills__container">
+
+      <div class="section__label">// skills</div>
+
+      <div class="skills__header">
+        <h2 class="skills__heading">My Toolkit</h2>
+        <p class="skills__subtext">
+          Technologies I work with and tools that are part of my daily workflow.
+        </p>
+      </div>
+
+      <!--
+        GROUP 1 — Languages & Frameworks
+        These are the things you write code IN.
+      -->
+      <div class="skills__group">
+        <h3 class="skills__group-label">Languages &amp; Frameworks</h3>
+
+        <!--
+          &amp; is the HTML entity for the ampersand character &.
+          In HTML, & starts special character codes (entities), so
+          writing a literal & in text should be written as &amp;
+          to avoid confusing the browser parser.
+        -->
+        <ul class="skills__grid">
+
+          <li class="skill-card">
+            <!--
+              <i> with a Devicon class renders the tech logo.
+              aria-hidden="true" hides it from screen readers —
+              the text label below already communicates what it is.
+            -->
+            <i class="devicon-html5-plain skill-card__icon" aria-hidden="true"></i>
+            <span class="skill-card__name">HTML5</span>
+          </li>
+
+          <li class="skill-card">
+            <i class="devicon-css3-plain skill-card__icon" aria-hidden="true"></i>
+            <span class="skill-card__name">CSS3</span>
+          </li>
+
+          <li class="skill-card">
+            <i class="devicon-javascript-plain skill-card__icon" aria-hidden="true"></i>
+            <span class="skill-card__name">JavaScript</span>
+          </li>
+
+          <li class="skill-card">
+            <i class="devicon-typescript-plain skill-card__icon" aria-hidden="true"></i>
+            <span class="skill-card__name">TypeScript</span>
+          </li>
+
+          <li class="skill-card">
+            <i class="devicon-react-original skill-card__icon" aria-hidden="true"></i>
+            <span class="skill-card__name">React</span>
+          </li>
+
+        </ul>
+      </div>
+
+      <!--
+        GROUP 2 — Tools & Workflow
+        These are the tools that support how you build, not what you build in.
+      -->
+      <div class="skills__group">
+        <h3 class="skills__group-label">Tools &amp; Workflow</h3>
+
+        <ul class="skills__grid">
+
+          <li class="skill-card">
+            <i class="devicon-git-plain skill-card__icon" aria-hidden="true"></i>
+            <span class="skill-card__name">Git</span>
+          </li>
+
+          <li class="skill-card">
+            <i class="devicon-vscode-plain skill-card__icon" aria-hidden="true"></i>
+            <span class="skill-card__name">VS Code</span>
+          </li>
+
+          <li class="skill-card">
+            <i class="devicon-figma-plain skill-card__icon" aria-hidden="true"></i>
+            <span class="skill-card__name">Figma</span>
+          </li>
+
+          <li class="skill-card">
+            <i class="devicon-npm-original-wordmark skill-card__icon" aria-hidden="true"></i>
+            <span class="skill-card__name">npm</span>
+          </li>
+
+          <!--
+            Chrome DevTools doesn't have a Devicon, so we use a simple
+            inline SVG of the Chrome logo as a fallback.
+            This is a good pattern — always have a fallback for icons
+            that don't exist in your icon library.
+          -->
+          <li class="skill-card">
+            <svg class="skill-card__icon skill-card__icon--svg" xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="4" fill="currentColor" opacity="0.9"/>
+              <path fill="none" stroke="currentColor" stroke-width="1.5"
+                d="M12 8a4 4 0 0 1 3.464 2H21a9 9 0 1 0 0 4h-5.536A4 4 0 1 1 12 8z"/>
+            </svg>
+            <span class="skill-card__name">DevTools</span>
+          </li>
+
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!--
+    ============================================================
+    CONTACT SECTION
+    ============================================================
+    Two parts:
+    1. Left — a direct email link + social links (for people who
+       prefer to reach out themselves without filling a form)
+    2. Right — a contact form (for people who prefer a structured message)
+
+    Having both removes friction. Some people hate forms, some people
+    hate opening their mail client. You cover both.
+
+    The form uses action="https://formspree.io/f/YOUR_ID" which is a
+    free service that receives form submissions and emails them to you —
+    no backend or server code needed.
+    Sign up at formspree.io, create a form, and replace YOUR_ID with
+    the ID they give you. Until then, the form has action="#" (does nothing).
+  -->
+  <section class="contact section" id="contact">
+    <div class="contact__container">
+
+      <div class="section__label">// contact</div>
+
+      <div class="contact__grid">
+
+        <!-- LEFT — Direct contact info -->
+        <div class="contact__info">
+
+          <h2 class="contact__heading">Let's Work Together</h2>
+
+          <p class="contact__subtext">
+            I'm currently open to frontend roles and internships.
+            Whether you have a project in mind, a question, or just
+            want to say hi — my inbox is always open.
+          </p>
+
+          <!--
+            Direct email link.
+            href="mailto:" opens the user's default email client
+            with the To field pre-filled. No backend needed.
+            It's the most reliable contact method on a portfolio.
+          -->
+          <a href="mailto:nifemidev443@gmail.com" class="contact__email">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+              viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+            nifemidev443@gmail.com
+          </a>
+
+          <!-- Social links row — same icons as the hero -->
+          <div class="contact__socials">
+
+            <a href="#" class="contact__social-link" target="_blank"
+              rel="noopener noreferrer" aria-label="GitHub profile">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0
+                  0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20
+                  4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38
+                  0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5
+                  4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37
+                  3.37 0 0 0 9 18.13V22"/>
+              </svg>
+              GitHub
+            </a>
+
+            <a href="#" class="contact__social-link" target="_blank"
+              rel="noopener noreferrer" aria-label="LinkedIn profile">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2
+                  2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+                <rect x="2" y="9" width="4" height="12"/>
+                <circle cx="4" cy="4" r="2"/>
+              </svg>
+              LinkedIn
+            </a>
+
+          </div>
+        </div>
+
+
+        <!-- RIGHT — Contact form -->
+        <div class="contact__form-col">
+          <!--
+            method="POST" — form data is sent in the request body,
+            not visible in the URL (unlike method="GET").
+            For contact forms, POST is always correct.
+
+            action="#" — replace with your Formspree endpoint:
+            action="https://formspree.io/f/YOUR_FORM_ID"
+            Sign up free at formspree.io to get your ID.
+          -->
+          <form class="contact__form" method="POST" action="#" id="contactForm" novalidate>
+
+            <!--
+              novalidate on the form disables the browser's built-in
+              validation popups (which look different in every browser).
+              We handle validation ourselves in main.js for a consistent look.
+            -->
+
+            <div class="form__group">
+              <!--
+                <label> is linked to its <input> via for="name" matching id="name".
+                This means clicking the label focuses the input — better UX.
+                It's also required for screen readers to announce what the field is.
+              -->
+              <label for="name" class="form__label">Your Name</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                class="form__input"
+                placeholder="John Doe"
+                required
+                autocomplete="name"
+              />
+              <!--
+                .form__error is hidden by default (display: none in CSS).
+                JS shows it with a message if validation fails.
+              -->
+              <span class="form__error" id="nameError"></span>
+            </div>
+
+            <div class="form__group">
+              <label for="email" class="form__label">Email Address</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                class="form__input"
+                placeholder="john@example.com"
+                required
+                autocomplete="email"
+              />
+              <span class="form__error" id="emailError"></span>
+            </div>
+
+            <div class="form__group">
+              <label for="message" class="form__label">Message</label>
+              <!--
+                <textarea> is the correct element for multi-line text input.
+                rows="5" sets the default visible height (5 lines).
+                resize="vertical" in CSS lets users drag it taller if needed.
+              -->
+              <textarea
+                id="message"
+                name="message"
+                class="form__input form__textarea"
+                placeholder="Tell me about your project or opportunity..."
+                rows="5"
+                required
+              ></textarea>
+              <span class="form__error" id="messageError"></span>
+            </div>
+
+            <!--
+              type="submit" triggers the form's submit event.
+              The button text changes to "Sending..." via JS while the
+              form is being submitted, giving the user feedback.
+            -->
+            <button type="submit" class="btn btn--primary form__submit" id="submitBtn">
+              Send Message
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="22" y1="2" x2="11" y2="13"/>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+              </svg>
+            </button>
+
+            <!--
+              Success message — hidden until form submits successfully.
+              JS toggles its visibility.
+            -->
+            <p class="form__success" id="formSuccess" aria-live="polite">
+              Message sent! I'll get back to you as soon as possible.
+            </p>
+
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!--
+    ============================================================
+    FOOTER
+    ============================================================
+    Minimal — just copyright and social links.
+    <footer> is a semantic HTML5 element that tells browsers and
+    screen readers this is the end-of-page information.
+
+    new Date().getFullYear() in the script below keeps the year
+    current automatically — no need to update it every January.
+  -->
+  <footer class="footer">
+    <div class="footer__container">
+
+      <p class="footer__copy">
+        &copy; <span id="footerYear"></span> Oluwanifemi Akinwumi.
+        Built with HTML, CSS &amp; JavaScript.
+      </p>
+
+      <div class="footer__links">
+        <a href="#hero" class="footer__link">Back to top</a>
+        <a href="mailto:nifemidev443@gmail.com" class="footer__link">Email</a>
+        <a href="https://github.com/peter7450" class="footer__link" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="www.linkedin.com/in/oluwanifemi-akinwumi-ab1b5a3a2" class="footer__link" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      </div>
+
+    </div>
+  </footer>
+  
+  <script src="js/main.js"></script>
+
+</body>
+</html>

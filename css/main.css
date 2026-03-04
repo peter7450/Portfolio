@@ -1,0 +1,1462 @@
+/* ============================================================
+   CSS CUSTOM PROPERTIES (Variables)
+   ============================================================
+   Custom properties live inside :root, which targets the very
+   top of the HTML tree (the <html> element).
+   This means every element on the page can access them.
+
+   Syntax:  --name: value;          (defining)
+            var(--name)             (using)
+
+   Why use variables?
+   If you want to change your accent color, you change it
+   in ONE place here — and it updates everywhere instantly.
+   Without variables you'd have to find and replace every
+   hex code manually across the whole file.
+============================================================ */
+/*
+  :root holds the DARK MODE values — this is the default theme.
+  Every color on the page uses var(--name), so swapping themes
+  means only changing these variable values. Nothing else in the
+  CSS needs to change. That's the entire power of CSS variables
+  for theming.
+*/
+:root {
+  /* Colors — dark mode (default) */
+  --bg:         #0a0a0a;
+  --bg-card:    #111111;
+  --text:       #e5e5e5;
+  --accent:     #6ee7b7;
+  --muted:      #6b7280;
+
+  /* Fonts */
+  --font-heading: 'Space Grotesk', sans-serif;
+  --font-body:    'Inter', sans-serif;
+
+  /* Layout */
+  --max-width:  1100px;
+  --nav-height: 70px;
+
+  /* Animation */
+  --transition: 0.3s ease;
+}
+
+/*
+  Light mode — applied when the <html> element has data-theme="light".
+  JS adds that attribute when the user toggles, or on page load if
+  their device prefers light mode.
+
+  We only override the color variables. Everything else (fonts, layout,
+  transitions) stays exactly the same — no duplication needed.
+
+  [data-theme="light"] is an attribute selector. It matches any element
+  that has a data-theme attribute with the value "light".
+  Setting it on <html> (the root) means every var() on the page
+  reads from here instead of :root when light mode is active.
+*/
+[data-theme="light"] {
+  --bg:         #f8f9fa;
+  --bg-card:    #ffffff;
+  --text:       #111827;
+  --accent:     #059669;   /* darker green — better contrast on white background */
+  --muted:      #6b7280;
+}
+
+/* ============================================================
+   CSS RESET
+   ============================================================
+   Browsers ship with built-in default styles (margin on <body>,
+   bullets on <ul>, padding on <h1>, etc.). These differ between
+   Chrome, Firefox, Safari, and Edge.
+
+   The reset removes those differences so YOU control every style.
+
+   * = the universal selector — targets every single element.
+   *::before and *::after target pseudo-elements (like the
+   underline animation on nav links below).
+
+   The background-color/color transitions here are for theme switching.
+   When JS flips data-theme on <html>, every element gently fades
+   to its new color rather than snapping instantly.
+============================================================ */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  transition: background-color 0.3s ease, color 0.3s ease,
+              border-color 0.3s ease, box-shadow 0.3s ease;
+
+  /*
+    box-sizing: border-box changes how width/height are calculated.
+
+    Default (content-box): width = content only. Padding and border
+    are added ON TOP, making elements wider than you expect.
+
+    border-box: width = content + padding + border combined.
+    So a div with width:200px and padding:20px stays 200px total.
+    This is almost always what you want.
+  */
+  box-sizing: border-box;
+}
+
+html {
+  /*
+    smooth scrolling for all anchor links (#about, #projects etc.)
+    Without this, clicking a nav link jumps instantly to the section.
+    With it, it glides smoothly.
+  */
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 1rem;       /* 1rem = 16px by default (matches browser root font size) */
+  line-height: 1.6;      /* 1.6 × font-size = space between text lines. Improves readability. */
+
+  /*
+    -webkit-font-smoothing: antialiased renders fonts with thinner,
+    smoother strokes on Mac/Chrome. Makes text look crisper on dark backgrounds.
+    Without it, fonts can look slightly bold/blurry on dark themes.
+  */
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Remove default list bullets/numbers (used on nav <ul>) */
+ul {
+  list-style: none;
+}
+
+/* Remove default underline and inherit color for all links */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+
+/* ============================================================
+   BUTTONS — UTILITY CLASSES
+   ============================================================
+   .btn is the base class every button shares (padding, border-radius,
+   font, transition). It defines what ALL buttons have in common.
+
+   .btn--primary, .btn--ghost, .btn--outline are modifier classes.
+   They only change what's DIFFERENT about each button style.
+
+   This pattern (base + modifier) means you write shared styles once.
+   To use a button: class="btn btn--primary"
+============================================================ */
+.btn {
+  display: inline-flex;    /* flex lets us align icon + text side by side if needed */
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  border-radius: 6px;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  border: 2px solid transparent;  /* keeps size consistent — border is always there, just invisible */
+  transition: all var(--transition);
+  white-space: nowrap;             /* prevents button text from wrapping to two lines */
+}
+
+/* PRIMARY — filled accent background */
+.btn--primary {
+  background-color: var(--accent);
+  color: #0a0a0a;          /* dark text on light background = better contrast ratio */
+  border-color: var(--accent);
+}
+
+.btn--primary:hover {
+  background-color: transparent;  /* hollow on hover — inverts the style */
+  color: var(--accent);
+}
+
+/* GHOST — transparent with a subtle border */
+.btn--ghost {
+  background-color: transparent;
+  color: var(--text);
+  border-color: var(--muted);
+}
+
+.btn--ghost:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* OUTLINE — accent border, used for the nav CTA button */
+.btn--outline {
+  background-color: transparent;
+  color: var(--accent);
+  border-color: var(--accent);
+  padding: 8px 20px;      /* smaller than the full .btn padding — fits better in the nav */
+  font-size: 0.875rem;
+}
+
+.btn--outline:hover {
+  background-color: var(--accent);
+  color: #0a0a0a;
+}
+
+
+/* ============================================================
+   NAVIGATION
+   ============================================================
+   position: fixed means the nav stays at the top of the
+   viewport (the visible window) even as the user scrolls.
+   It's removed from the normal document flow.
+
+   z-index: 100 controls stacking order. Higher number = on top.
+   The nav needs to sit above all other content, so 100 is safe.
+============================================================ */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--nav-height);
+  z-index: 100;
+
+  /*
+    The nav starts fully transparent.
+    When JS adds the .scrolled class, the background fades in.
+    The transition makes that change smooth instead of instant.
+  */
+  transition: background-color var(--transition),
+              border-color     var(--transition);
+
+  border-bottom: 1px solid transparent;
+}
+
+/*
+  .scrolled is added by JavaScript when window.scrollY > 20px.
+  backdrop-filter: blur() creates a frosted glass effect —
+  content behind the nav blurs slightly. Browser support is good
+  in all modern browsers.
+*/
+.nav.scrolled {
+  background-color: rgba(10, 10, 10, 0.92);  /* semi-transparent bg */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);        /* Safari prefix */
+  border-bottom-color: rgba(255, 255, 255, 0.06);
+}
+
+/* Centers nav content and caps it at --max-width */
+.nav__container {
+  max-width: var(--max-width);
+  margin: 0 auto;      /* auto left/right margin = centered horizontally */
+  padding: 0 24px;
+  height: 100%;
+  display: flex;
+  align-items: center;     /* vertically center everything inside the nav */
+  gap: 32px;
+}
+
+/* Logo text */
+.nav__logo {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: -0.5px;
+  flex-shrink: 0;          /* prevents the logo from shrinking if space is tight */
+}
+
+/* Nav links list */
+.nav__links {
+  display: flex;
+  gap: 36px;
+  margin-left: auto;    /* pushes links to the right, before the CTA button */
+}
+
+/* Individual link */
+.nav__link {
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: color var(--transition);
+  position: relative;   /* needed so the ::after underline positions relative to this */
+}
+
+/*
+  Animated underline on hover.
+  ::after creates a pseudo-element — a visual element that exists
+  in CSS only (not in the HTML). Here it's a thin line below the link.
+
+  The trick: scaleX starts at 0 (invisible) and transitions to 1 (full width)
+  on hover. transform-origin: left means it grows from the left side.
+*/
+.nav__link::after {
+  content: '';           /* pseudo-elements need content (even empty) to appear */
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--transition);
+}
+
+.nav__link:hover,
+.nav__link.active {      /* .active is added by IntersectionObserver in main.js */
+  color: var(--text);
+}
+
+.nav__link:hover::after,
+.nav__link.active::after {
+  transform: scaleX(1);  /* grow the underline to full width */
+}
+
+/*
+  Theme toggle button — sits between the Hire Me CTA and the hamburger.
+
+  Both SVGs (moon + sun) live inside the button.
+  By default (dark mode): moon is visible, sun is hidden.
+  In light mode ([data-theme="light"]): sun is visible, moon is hidden.
+  CSS handles the show/hide — JS only flips the data-theme attribute.
+*/
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--muted);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: color var(--transition), border-color var(--transition),
+              background-color var(--transition);
+}
+
+.theme-toggle:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+/* Dark mode: show moon, hide sun */
+.theme-toggle__moon { display: block; }
+.theme-toggle__sun  { display: none;  }
+
+/* Light mode: show sun, hide moon */
+[data-theme="light"] .theme-toggle__moon { display: none;  }
+[data-theme="light"] .theme-toggle__sun  { display: block; }
+
+/* In light mode the button border should use a darker base */
+[data-theme="light"] .theme-toggle {
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
+
+/* Hamburger button — hidden on desktop, shown on mobile via media query */
+.nav__toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  margin-left: auto;    /* pushes it to the far right when links are hidden */
+}
+
+/* The three lines of the hamburger icon */
+.nav__toggle span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background-color: var(--text);
+  border-radius: 2px;
+  transition: all var(--transition);
+}
+
+
+/* ============================================================
+   HERO SECTION
+   ============================================================
+   min-height: 100dvh makes the hero fill the full viewport height.
+   dvh (dynamic viewport height) is better than vh on mobile because
+   it accounts for browser UI (address bar, bottom navigation) that
+   can shrink the visible area.
+
+   We use flex with align-items: center so the content sits
+   vertically centered in that full-height space.
+============================================================ */
+.hero {
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+
+  /*
+    Top padding accounts for the fixed nav (--nav-height) + extra breathing room.
+    calc() lets you mix units: calc(70px + 40px) = 110px.
+    We use the CSS variable so if --nav-height changes, this updates too.
+  */
+  padding: calc(var(--nav-height) + 40px) 24px 100px;
+
+  position: relative;   /* needed so .hero__scroll-hint can use position: absolute */
+}
+
+.hero__container {
+  max-width: var(--max-width);
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* "Hi, I'm" line */
+.hero__greeting {
+  font-size: 1rem;
+  color: var(--accent);
+  font-weight: 500;
+  letter-spacing: 0.08em;   /* slightly spaced letters = refined look */
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+/* Your name — the largest text on the page */
+.hero__name {
+  font-family: var(--font-heading);
+
+  /*
+    clamp(min, preferred, max) is responsive font sizing in one line.
+    The font scales with the viewport width (vw = viewport width %)
+    but never goes below 2.8rem or above 5.5rem.
+    Without clamp, you'd need multiple media queries for font sizes.
+  */
+  font-size: clamp(2.8rem, 7vw, 5.5rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -2px;
+  color: var(--text);
+  margin-bottom: 20px;
+}
+
+/* Role title — typed by JavaScript */
+.hero__role {
+  font-family: var(--font-heading);
+  font-size: clamp(1.1rem, 2.8vw, 1.7rem);
+  font-weight: 500;
+  color: var(--muted);
+  margin-bottom: 28px;
+
+  /*
+    min-height prevents layout shift.
+    While the typing animation runs, this element grows from 0 characters.
+    Without min-height, everything below it would jump down as text appears.
+  */
+  min-height: 2.2rem;
+}
+
+/*
+  Blinking cursor — a thin vertical bar added by JavaScript
+  to simulate a real terminal cursor during the typing animation.
+  CSS animates its opacity to create the blink effect.
+*/
+.cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1.1em;
+  background-color: var(--accent);
+  margin-left: 3px;
+  vertical-align: middle;
+  animation: blink 1s step-end infinite;
+  /*
+    step-end means the animation jumps instantly between states
+    (on → off → on) rather than fading. This mimics a real cursor blink.
+  */
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* Tagline paragraph */
+.hero__tagline {
+  max-width: 520px;    /* keeps line length comfortable — long lines are hard to read */
+  font-size: 1.05rem;
+  color: var(--muted);
+  line-height: 1.75;
+  margin-bottom: 44px;
+}
+
+/* CTA button row */
+.hero__ctas {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;    /* if screen is too narrow, buttons stack to next line */
+  margin-bottom: 52px;
+}
+
+/* Social icon links */
+.hero__socials {
+  display: flex;
+  gap: 22px;
+  align-items: center;
+}
+
+.social-link {
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  transition: color var(--transition), transform var(--transition);
+}
+
+.social-link:hover {
+  color: var(--accent);
+  transform: translateY(-3px);  /* subtle upward lift on hover */
+}
+
+/*
+  Scroll hint — positioned at the bottom center of the hero section.
+  position: absolute takes it out of the normal flow.
+  left: 50% + transform: translateX(-50%) is the standard trick
+  for horizontally centering an absolutely positioned element.
+*/
+.hero__scroll-hint {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  color: var(--muted);
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+/* The animated vertical line */
+.hero__scroll-line {
+  width: 1px;
+  height: 52px;
+
+  /*
+    linear-gradient goes from --muted at the top to transparent at the bottom.
+    This creates a line that fades out, which looks more elegant than a solid line.
+    Direction "to bottom" is the default for linear-gradient.
+  */
+  background: linear-gradient(to bottom, var(--muted), transparent);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.4; transform: scaleY(1);    }
+  50%       { opacity: 1;   transform: scaleY(1.15); }
+}
+
+
+/* ============================================================
+   RESPONSIVE — MOBILE BREAKPOINT
+   ============================================================
+   @media (max-width: 768px) means: apply these styles ONLY
+   when the viewport is 768px wide or less (phones and small tablets).
+
+   The styles inside override the desktop styles above.
+   This is "desktop-first" responsive design.
+============================================================ */
+@media (max-width: 768px) {
+
+  /* Hide the nav links list and the hire me button on mobile */
+  .nav__links {
+    /*
+      When hidden: the list is absolutely positioned off-screen visually,
+      but we use display: none (toggled by JS) to show/hide it.
+      When .open class is added by JS, it becomes display: flex.
+    */
+    display: none;
+    position: absolute;
+    top: var(--nav-height);
+    left: 0;
+    right: 0;
+    background-color: rgba(10, 10, 10, 0.98);
+    flex-direction: column;
+    padding: 8px 0 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  /* .open is added by JS when hamburger is clicked */
+  .nav__links.open {
+    display: flex;
+  }
+
+  .nav__links li {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .nav__link {
+    display: block;
+    padding: 14px 24px;
+    font-size: 1rem;
+  }
+
+  /* Show the hamburger button on mobile */
+  .nav__toggle {
+    display: flex;
+  }
+
+  /* Hide the nav CTA button — too crowded on mobile */
+  .nav__cta {
+    display: none;
+  }
+
+  /* Reduce name letter spacing on small screens */
+  .hero__name {
+    letter-spacing: -1px;
+  }
+
+  /* Stack buttons vertically on narrow screens */
+  .hero__ctas {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  /* Hide scroll hint on mobile — it can overlap content */
+  .hero__scroll-hint {
+    display: none;
+  }
+}
+
+
+/* ============================================================
+   SHARED SECTION STYLES
+   ============================================================
+   These styles apply to ALL sections (About, Projects, Skills,
+   Contact). Defining them once here means every section has
+   consistent spacing and label styling automatically.
+
+   .section is added alongside each section's own class:
+   class="about section"
+   class="projects section"   ...and so on.
+============================================================ */
+.section {
+  padding: 120px 24px;   /* top/bottom breathing room above and below content */
+}
+
+/*
+  Section label — the small "// about me" tag above each heading.
+  A consistent visual pattern that ties all sections together.
+  The // prefix is a dev nod (comments in many languages use //).
+*/
+.section__label {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--accent);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 48px;
+}
+
+
+/* ============================================================
+   ABOUT SECTION
+   ============================================================
+   Two-column grid layout:
+   - Left column: photo placeholder + status badge
+   - Right column: heading, bio paragraphs, quick facts
+
+   CSS Grid is used here because we need precise control over
+   the column proportions (1fr vs 2fr = 1/3 and 2/3 of the space).
+   Flexbox would also work but Grid is cleaner for two-column layouts.
+============================================================ */
+.about__container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+.about__grid {
+  display: grid;
+
+  /*
+    grid-template-columns defines the column widths.
+    280px   → left column (photo) is a fixed 280px
+    1fr     → right column (text) takes ALL remaining space
+    gap     → space between the two columns
+  */
+  grid-template-columns: 280px 1fr;
+  gap: 80px;
+  align-items: start;   /* aligns both columns to their top edges */
+}
+
+/* ---- LEFT COLUMN ---- */
+.about__photo-col {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/*
+  Photo placeholder — shown when there's no real photo yet.
+  It's a square with rounded corners, your initials centered inside.
+  aspect-ratio: 1 / 1 makes it perfectly square regardless of width.
+  When you add a real photo, replace this div with an <img> tag.
+*/
+.about__avatar-placeholder {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background-color: var(--bg-card);
+  border: 1px solid rgba(110, 231, 183, 0.15);  /* subtle accent border */
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading);
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: -1px;
+  position: relative;
+  overflow: hidden;
+}
+
+/*
+  Decorative corner accent — a small glowing square in the top-left corner.
+  ::before is a pseudo-element — it exists only in CSS, not in the HTML.
+  position: absolute places it relative to .about__avatar-placeholder
+  (which has position: relative).
+*/
+.about__avatar-placeholder::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 40px;
+  background-color: var(--accent);
+  opacity: 0.12;
+  border-radius: 0 0 8px 0;
+}
+
+/*
+  Status badge — "Available for roles & internships"
+  The green pulsing dot signals availability visually at a glance.
+*/
+.about__status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.8rem;
+  color: var(--muted);
+  line-height: 1.4;
+  padding: 12px 16px;
+  background-color: var(--bg-card);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/*
+  The green pulsing dot.
+  ::before creates it as a pseudo-element inside .about__status.
+  The pulse animation makes it appear "live" — like a recording indicator.
+*/
+.status-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #4ade80;   /* green — universally understood as "active/available" */
+  border-radius: 50%;           /* circle */
+  flex-shrink: 0;               /* stops it from squishing if text is long */
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1;   transform: scale(1);    }
+  50%       { opacity: 0.5; transform: scale(0.85); }
+}
+
+/* ---- RIGHT COLUMN ---- */
+.about__heading {
+  font-family: var(--font-heading);
+  font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+  color: var(--text);
+  margin-bottom: 28px;
+}
+
+/* Bio text — three paragraphs with spacing between them */
+.about__bio {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+.about__bio p {
+  font-size: 0.98rem;
+  color: var(--muted);
+  line-height: 1.8;
+  max-width: 600px;
+}
+
+/*
+  Quick facts — a <dl> (description list).
+  We display the facts in a 2-column grid so they sit side by side.
+  Each .about__fact wraps a <dt> (label) and <dd> (value) pair.
+*/
+.about__facts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 32px;
+  padding-top: 32px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.about__fact {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* <dt> = the label ("Based in", "Started") */
+.about__fact dt {
+  font-size: 0.75rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 500;
+}
+
+/* <dd> = the value ("Lagos, Nigeria", "2018 · Age 17") */
+.about__fact dd {
+  font-size: 0.95rem;
+  color: var(--text);
+  font-weight: 500;
+  font-family: var(--font-heading);
+}
+
+/* ---- RESPONSIVE ---- */
+@media (max-width: 768px) {
+
+  .section {
+    padding: 80px 24px;
+  }
+
+  /*
+    On mobile, collapse the two-column grid to a single column.
+    grid-template-columns: 1fr means one column that fills the full width.
+    The photo column stacks above the text column.
+  */
+  .about__grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  /* Cap the photo placeholder width on mobile so it doesn't fill the screen */
+  .about__avatar-placeholder {
+    max-width: 200px;
+  }
+
+  /* Two facts per row still works on mobile — keep it */
+  .about__facts {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+
+/* ============================================================
+   PROJECTS SECTION
+   ============================================================
+   Three cards in a CSS Grid.
+   Each card is an <article> — self-contained, independently
+   meaningful content. The card layout uses flexbox internally
+   so the links always sit at the bottom regardless of how tall
+   the card content is (flex-grow on the description pushes links down).
+============================================================ */
+.projects__container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+.projects__header {
+  margin-bottom: 56px;
+}
+
+.projects__heading {
+  font-family: var(--font-heading);
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+
+.projects__subtext {
+  font-size: 0.98rem;
+  color: var(--muted);
+  max-width: 480px;
+  line-height: 1.7;
+}
+
+/*
+  Three equal columns on desktop.
+  repeat(3, 1fr) = three columns, each taking an equal share of space.
+  gap adds space between the cards without needing margins.
+*/
+.projects__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  align-items: stretch;   /* makes all cards in a row the same height */
+}
+
+/*
+  Project card — each <article> is a card.
+
+  display: flex + flex-direction: column turns the card into a
+  vertical flex container. This lets us use flex-grow on the
+  description to push the links to the bottom of every card,
+  keeping them perfectly aligned across all three cards.
+
+  The top border animates to accent color on hover — a subtle
+  way to show interactivity without being loud about it.
+*/
+.project-card {
+  background-color: var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-top: 2px solid rgba(255, 255, 255, 0.06);   /* top border that animates */
+  border-radius: 10px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  transition: border-top-color var(--transition),
+              transform var(--transition);
+}
+
+.project-card:hover {
+  border-top-color: var(--accent);
+  transform: translateY(-4px);   /* subtle upward lift */
+}
+
+/* Card top row — project number on the left, link icon on the right */
+.card__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/*
+  Project number (01, 02, 03) — large, muted, decorative.
+  It's purely visual — gives each card a sense of order.
+*/
+.card__number {
+  font-family: var(--font-heading);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--accent);
+  opacity: 0.5;
+  letter-spacing: 0.1em;
+}
+
+/* External link icon — top-right of the card */
+.card__ext-icon {
+  color: var(--muted);
+  transition: color var(--transition);
+}
+
+.project-card:hover .card__ext-icon {
+  color: var(--accent);
+}
+
+/* Project title */
+.card__title {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.3px;
+}
+
+/*
+  Description — flex-grow: 1 is the key here.
+  In a flex column container, flex-grow: 1 tells this element
+  to expand and fill all available space. Because all cards
+  have the same height (from align-items: stretch on the grid),
+  the description stretches to fill the gap — pushing .card__tags
+  and .card__links to the bottom of every card consistently.
+*/
+.card__desc {
+  font-size: 0.9rem;
+  color: var(--muted);
+  line-height: 1.75;
+  flex-grow: 1;
+}
+
+/* Tech tag list */
+.card__tags {
+  display: flex;
+  flex-wrap: wrap;   /* tags wrap to the next line if there are too many */
+  gap: 8px;
+  list-style: none;
+}
+
+/*
+  Individual tech tag — a pill badge.
+  The slight accent tint on the background ties it to your color scheme
+  without being distracting.
+*/
+.tag {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--accent);
+  background-color: rgba(110, 231, 183, 0.08);
+  border: 1px solid rgba(110, 231, 183, 0.18);
+  padding: 3px 10px;
+  border-radius: 20px;    /* large radius = pill shape */
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+/* Links row — GitHub and Live Demo side by side */
+.card__links {
+  display: flex;
+  gap: 20px;
+  padding-top: 4px;
+}
+
+.card__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--muted);
+  transition: color var(--transition);
+}
+
+.card__link:hover {
+  color: var(--text);
+}
+
+/* Live Demo link gets accent color to stand out more than the Code link */
+.card__link--live {
+  color: var(--accent);
+  opacity: 0.8;
+}
+
+.card__link--live:hover {
+  opacity: 1;
+}
+
+/* ---- RESPONSIVE ---- */
+@media (max-width: 900px) {
+  /*
+    At 900px, three columns get too narrow.
+    Switch to two columns.
+  */
+  .projects__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  /* On phones, one column only */
+  .projects__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* ============================================================
+   SKILLS SECTION
+   ============================================================
+   Two groups of skills, each with its own icon grid.
+   The grid uses auto-fill + minmax to be fully responsive
+   with no media queries needed — the browser figures out
+   how many columns fit based on screen width.
+============================================================ */
+.skills__container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+.skills__header {
+  margin-bottom: 56px;
+}
+
+.skills__heading {
+  font-family: var(--font-heading);
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+
+.skills__subtext {
+  font-size: 0.98rem;
+  color: var(--muted);
+  max-width: 480px;
+  line-height: 1.7;
+}
+
+/* Each group (Languages, Tools) */
+.skills__group {
+  margin-bottom: 52px;
+}
+
+.skills__group:last-child {
+  margin-bottom: 0;
+}
+
+/* Group label — "Languages & Frameworks" */
+.skills__group-label {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 24px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/*
+  Skill icon grid.
+
+  auto-fill + minmax is the responsive grid pattern that needs
+  no media queries:
+  - minmax(100px, 1fr) means each column is at least 100px wide,
+    but can grow to fill available space equally.
+  - auto-fill means: fit as many columns as possible at the minimum size.
+  Result: on a wide screen you get 5 columns, on a phone you get 3 or 2 —
+  the browser calculates it automatically.
+*/
+.skills__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 16px;
+  list-style: none;
+}
+
+/*
+  Skill card — icon above, name below.
+  Simple, clean, no fluff.
+  The hover state lifts the card and brightens the icon color.
+*/
+.skill-card {
+  background-color: var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  cursor: default;
+  transition: border-color var(--transition),
+              transform var(--transition);
+}
+
+.skill-card:hover {
+  border-color: rgba(110, 231, 183, 0.25);
+  transform: translateY(-3px);
+}
+
+/*
+  Devicon icon sizing.
+  Devicon renders icons as icon fonts (like text), so font-size
+  controls the icon size, and color controls the icon color.
+  colored = use the technology's official brand colors.
+*/
+.skill-card__icon {
+  font-size: 2.4rem;
+  color: var(--muted);
+  transition: color var(--transition);
+}
+
+/*
+  On hover, show the icon's original brand color.
+  Devicons have a "colored" variant (devicon-html5-plain colored)
+  but we control it with CSS here instead, so all icons
+  start muted and brighten on hover — consistent behavior.
+*/
+.skill-card:hover .skill-card__icon {
+  color: var(--accent);
+}
+
+/*
+  SVG icon variant — used for DevTools (Chrome) which has no Devicon.
+  SVG icons are sized with width/height, not font-size.
+*/
+.skill-card__icon--svg {
+  width: 2.4rem;
+  height: 2.4rem;
+  font-size: unset;   /* override the font-size set above — doesn't apply to SVG */
+}
+
+/* Skill name text */
+.skill-card__name {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--muted);
+  text-align: center;
+  transition: color var(--transition);
+}
+
+.skill-card:hover .skill-card__name {
+  color: var(--text);
+}
+
+
+/* ============================================================
+   CONTACT SECTION
+   ============================================================
+   Two-column layout: info on the left, form on the right.
+   Same grid pattern as the About section — consistent rhythm.
+============================================================ */
+.contact__container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+.contact__grid {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;   /* form column is slightly wider */
+  gap: 80px;
+  align-items: start;
+}
+
+/* ---- LEFT — Info ---- */
+.contact__heading {
+  font-family: var(--font-heading);
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: var(--text);
+  margin-bottom: 16px;
+}
+
+.contact__subtext {
+  font-size: 0.98rem;
+  color: var(--muted);
+  line-height: 1.8;
+  margin-bottom: 36px;
+  max-width: 380px;
+}
+
+/*
+  Direct email link — displayed as a styled block with icon + text.
+  Not a button (it opens mail client), so <a> is correct.
+  The underline grows from left on hover — same trick as nav links.
+*/
+.contact__email {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--accent);
+  margin-bottom: 36px;
+  position: relative;
+  transition: opacity var(--transition);
+}
+
+.contact__email:hover {
+  opacity: 0.8;
+}
+
+/* Social links in the contact section */
+.contact__socials {
+  display: flex;
+  gap: 24px;
+}
+
+.contact__social-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--muted);
+  transition: color var(--transition);
+}
+
+.contact__social-link:hover {
+  color: var(--accent);
+}
+
+/* ---- RIGHT — Form ---- */
+.contact__form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/*
+  Each form group holds a label + input + error message.
+  display: flex + flex-direction: column stacks them vertically.
+*/
+.form__group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form__label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text);
+  letter-spacing: 0.02em;
+}
+
+/*
+  Form inputs and textarea share the same .form__input class.
+  appearance: none removes browser default styling (borders, backgrounds)
+  so we have full visual control.
+  outline: none removes the default blue focus ring — we replace it
+  with our own accent-colored ring below.
+*/
+.form__input {
+  background-color: var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--text);
+  width: 100%;
+  transition: border-color var(--transition), box-shadow var(--transition);
+  appearance: none;
+  outline: none;
+}
+
+/* Placeholder text styling */
+.form__input::placeholder {
+  color: var(--muted);
+  opacity: 0.6;
+}
+
+/*
+  Focus state — when the user clicks into an input.
+  We replace the default browser outline with a custom accent ring.
+  box-shadow creates the glow effect: x-offset y-offset blur spread color
+  0 0 0 3px = no offset, 3px spread = border-like ring.
+*/
+.form__input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(110, 231, 183, 0.1);
+}
+
+/* Invalid state — shown by JS after a failed submit attempt */
+.form__input.invalid {
+  border-color: #f87171;   /* red */
+  box-shadow: 0 0 0 3px rgba(248, 113, 113, 0.1);
+}
+
+/* Textarea */
+.form__textarea {
+  resize: vertical;        /* user can drag it taller but not sideways */
+  min-height: 130px;
+  line-height: 1.6;
+}
+
+/*
+  Error message — hidden by default.
+  JS sets its textContent and removes the .hidden class to show it.
+*/
+.form__error {
+  font-size: 0.78rem;
+  color: #f87171;
+  display: none;            /* hidden until JS shows it */
+}
+
+.form__error.visible {
+  display: block;
+}
+
+/* Submit button — full width on the form */
+.form__submit {
+  width: 100%;
+  justify-content: center;
+  padding: 14px 28px;
+  font-size: 1rem;
+  margin-top: 4px;
+}
+
+.form__submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/*
+  Success message — hidden until form submits.
+  aria-live="polite" on the element means screen readers will
+  announce the text when it appears, without interrupting the user.
+*/
+.form__success {
+  display: none;
+  font-size: 0.9rem;
+  color: var(--accent);
+  text-align: center;
+  padding: 12px;
+  background-color: rgba(110, 231, 183, 0.08);
+  border-radius: 8px;
+  border: 1px solid rgba(110, 231, 183, 0.2);
+}
+
+.form__success.visible {
+  display: block;
+}
+
+/* ---- RESPONSIVE ---- */
+@media (max-width: 768px) {
+  .contact__grid {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+}
+
+
+/* ============================================================
+   FOOTER
+   ============================================================
+   Minimal footer — copyright left, links right.
+   A thin top border visually separates it from the contact section.
+============================================================ */
+.footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 32px 24px;
+}
+
+.footer__container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;    /* wraps to two lines on narrow screens */
+}
+
+.footer__copy {
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.footer__links {
+  display: flex;
+  gap: 24px;
+}
+
+.footer__link {
+  font-size: 0.82rem;
+  color: var(--muted);
+  transition: color var(--transition);
+}
+
+.footer__link:hover {
+  color: var(--accent);
+}
